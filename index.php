@@ -17,6 +17,10 @@
  include 'tableBody.php';
  echo Table();
  ?>
+    <?php 
+        include 'tablePagination.php';
+        echo Pagination();
+    ?>
 </body>
 
 <script>
