@@ -1,9 +1,10 @@
 <?php 
+
     function ItemModal(){
         ob_start();
         ?>
-
-        <div class="fixed flex items-center justify-center inset-0 z-50">
+        <form method="POST" action=""
+        class="fixed flex items-center justify-center inset-0 z-50">
          <div class="fixed h-full w-full bg-gray-600 bg-opacity-50"
             onclick="AddItem()">
         </div>
@@ -12,8 +13,8 @@
             <?php 
             include 'inputStyle.php'; ?>
 
-            <?= InputStyle("Name: ", "text", "fa-list-ul", "consumption"); ?>
-            <?= InputStyle("Cost: ", "number", "fa-money-bill-1", "cost"); ?>
+            <?= InputStyle("Name: ", "text", "fa-list-ul", "consumption", "name"); ?>
+            <?= InputStyle("Cost: ", "number", "fa-money-bill-1", "cost", "cost"); ?>
 
           <div class="space-y-1">
                 <label for="" class="text-sm text-gray-500">Category: </label>
@@ -30,14 +31,14 @@
                 </div>
           </div>
 
-            <?= InputStyle("Date: ", "date", "fa-calendar", "cost"); ?>
-            <?= InputStyle("Quantity: ", "number", "fa-list-ol", "quantity"); ?>
+            <?= InputStyle("Date: ", "date", "fa-calendar", "date", "date"); ?>
+            <?= InputStyle("Quantity: ", "number", "fa-list-ol", "quantity", "quan"); ?>
 
-            <button class="items-center text-white bg-blue-500 hover:bg-blue-600  rounded-lg text-sm p-2 shadow-lg">
+            <button type="submit" class="items-center text-white bg-blue-500 hover:bg-blue-600  rounded-lg text-sm p-2 shadow-lg">
                 Confirm
             </button>
          </div>
-        </div>
+    </form>
 
         <?php return ob_get_clean();
     }
