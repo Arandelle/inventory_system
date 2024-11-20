@@ -1,11 +1,19 @@
 <?php
 
+include 'database.php';
+
+
+
 function Toolbar()
 {
     ob_start(); 
     ?>
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-3 bg-white dark:bg-gray-800 rounded-t-md shadow-md">
-        <button class="inline-flex space-x-2 justify-center items-center text-nowrap text-gray-500 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+        <button class="inline-flex space-x-2 justify-center items-center text-nowrap text-gray-500 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+
+        id="addItem"
+        onclick="AddItem()"
+        >
         <i class="fa-solid fa-plus"></i>
         <p> Add new consumption</p>
         </button>

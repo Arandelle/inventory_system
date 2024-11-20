@@ -1,5 +1,5 @@
 <?php
-
+include 'database.php';
 function Table()
 {
   $headers = ['ID', "Name", "Cost", "Category", "Consumption_Date", "Quantity", "Action"];
@@ -37,7 +37,6 @@ function Table()
                     <td class="px-6 py-4 whitespace-nowrap"><?= $item["date"] ?></td>
                     <td class="px-6 py-4 whitespace-nowrap"><?= $item["quan"] ?></td>
                     <td class="space-x-2">
-                      <button class="fa-solid fa-eye text-blue-500 bg-blue-100 p-2 rounded-full"></button>
                       <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"></button>
                       <button class="fa-solid fa-trash text-red-500 bg-red-100 p-2 rounded-full"></button>
                     </td>
@@ -46,6 +45,11 @@ function Table()
                 </tbody>
               </table>
             </div>
+            <div class="hidden" id="modal">
+        <?php include 'itemModal.php'; 
+        echo ItemModal();
+        ?>
+    </div>
           </div>
     
               <?php return ob_get_clean();

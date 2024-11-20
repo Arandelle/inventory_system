@@ -2,7 +2,7 @@
     $serverName = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "cunsumption_tracker";
+    $dbname = "consumption_tracker";
 
     $conn = new mysqli($serverName, $username, $password,  $dbname);
 
