@@ -1,16 +1,10 @@
 <?php
-function Table($page = 1, $items_per_page = 10)
+function Table($result, $currentPage, $totalPages)
 {
-  include 'database.php';
   $headers = ['ID', "Name", "Cost", "Category", "Consumption_Date", "Quantity", "Action"];
-  $offset = ($page - 1) * $items_per_page;
-  $total_result = $conn->query('SELECT COUNT(*) as total FROM daily_consumption');
-  $total_rows = $total_result->fetch_assoc()['total'];
-  $total_pages = ceil($total_rows / $items_per_page);
-  $result = $conn->query("SELECT * FROM daily_consumption LIMIT $items_per_page OFFSET $offset");
   ob_start();
   ?>
-        <div class="flex flex-col justify-center">
+        <div class="flex flex-col justify-center shadow-lg">
               <div  class="overflow-auto w-full">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:bg-opacity-70 dark:text-gray-400">
@@ -28,7 +22,7 @@ function Table($page = 1, $items_per_page = 10)
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Name"] ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Cost"] ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Category"] ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap"><?= $row["ConsumptionDate"] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
                         <td class="space-x-2">
                           <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"></button>
@@ -40,24 +34,19 @@ function Table($page = 1, $items_per_page = 10)
                   </tbody>
                 </table>
               </div>
-                  <!-- Pagination Controls -->
-        <div class="flex justify-center space-x-2 mt-4">
-            <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded">Previous</a>
-            <?php endif; ?>
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="?page=<?= $i ?>" class="px-4 py-2 <?= $i == $page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700' ?> rounded">
-                    <?= $i ?>
-                </a>
-            <?php endfor; ?>
-            <?php if ($page < $total_pages): ?>
-                <a href="?page=<?= $page + 1 ?>" class="px-4 py-2 bg-gray-200 text-gray-700 rounded">Next</a>
-            <?php endif; ?>
-        </div>
-              <div class="hidden" id="modal">
-          <?php include 'itemModal.php';
-          echo ItemModal();
-          ?>
+          <!-- Pagination -->
+    <div class="flex justify-center space-x-2 border-t border-t-blue-500 bg-white p-4">
+        <?php if ($currentPage > 1): ?>
+            <a href="?page=<?= $currentPage - 1 ?>" class="px-4 py-2 bg-gray-200 rounded">Previous</a>
+        <?php endif; ?>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=<?= $i ?>" class="px-4 py-2 <?= $i == $currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200' ?> rounded">
+                <?= $i ?>
+            </a>
+        <?php endfor; ?>
+        <?php if ($currentPage < $totalPages): ?>
+            <a href="?page=<?= $currentPage + 1 ?>" class="px-4 py-2 bg-gray-200 rounded">Next</a>
+        <?php endif; ?>
       </div>
             </div>
     

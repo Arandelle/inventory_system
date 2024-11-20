@@ -1,27 +1,48 @@
 <?php
-session_start(); // Start session to store messages
-
+session_start();
 include 'database.php';
-$message = "";
-$messageType = "";
 
-// Set default page for pagination
-$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-$itemsPerPage = 4; // Example number of items per page
-$offset = ($page - 1) * $itemsPerPage;
+function getPaginationData($conn, $page, $itemsPerPage)
+{
+    $offset = ($page - 1) * $itemsPerPage;
+
+    // Fetch paginated results
+    $stmt = $conn->prepare("SELECT * FROM daily_consumption ORDER BY ConsumptionDate DESC LIMIT ? OFFSET ?");
+    $stmt->bind_param("ii", $itemsPerPage, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Fetch total count for pagination
+    $totalResults = $conn->query("SELECT COUNT(*) as total FROM daily_consumption")->fetch_assoc()['total'];
+    $totalPages = ceil($totalResults / $itemsPerPage);
+
+    return [$result, $totalPages];
+}
+
+function showMessage()
+{
+    if (isset($_SESSION['message'])) {
+        $messageType = $_SESSION['messageType'] == 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
+        echo "<p class='text-center p-2 $messageType'>" . $_SESSION['message'] . "</p>";
+        unset($_SESSION['message'], $_SESSION['messageType']);
+    }
+}
+
+// Default page settings
+$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$itemsPerPage = 10; // Change this value as needed
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get form data
-    $name = $_POST["name"] ?? '';
-    $cost = $_POST["cost"] ?? 0;
-    $category = $_POST["category"] ?? '';
-    $date = $_POST["date"] ?? '';
-    $quan = $_POST["quan"] ?? 0;
+    // Sanitize inputs
+    $name = trim($_POST["name"] ?? '');
+    $cost = floatval($_POST["cost"] ?? 0);
+    $category = trim($_POST["category"] ?? '');
+    $date = trim($_POST["date"] ?? '');
+    $quan = intval($_POST["quan"] ?? 0);
 
-    if ($name && $cost && $category && $date && $quan) {
-        // Insert into the database
+    if ($name && $cost > 0 && $category && $date && $quan > 0) {
         $stmt = $conn->prepare("INSERT INTO daily_consumption (Name, Cost, Category, ConsumptionDate, Quantity) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdsss", $name, $cost, $category, $date, $quan);
+        $stmt->bind_param("sdssi", $name, $cost, $category, $date, $quan);
 
         if ($stmt->execute()) {
             $_SESSION['message'] = "Successfully Added!";
@@ -32,24 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $stmt->close();
     } else {
-        $_SESSION['message'] = "Please fill all fields!";
+        $_SESSION['message'] = "Please fill all fields with valid data!";
         $_SESSION['messageType'] = "error";
     }
-    $conn->close();
 
-    // Redirect after form submission
-    header("Location: index.php" . "?page=" . $page); // Maintain current page for pagination
+    // Redirect to maintain current page
+    header("Location: index.php?page=" . $page);
     exit();
 }
 
-// Fetch data from the database for display (using LIMIT and OFFSET for pagination)
-$sql = "SELECT * FROM daily_consumption ORDER BY ConsumptionDate DESC LIMIT $itemsPerPage OFFSET $offset";
-$result = $conn->query($sql);
-
-// Get total count for pagination
-$totalResults = $conn->query("SELECT COUNT(*) FROM daily_consumption")->fetch_row()[0];
-$totalPages = ceil($totalResults / $itemsPerPage);
-
+// Fetch paginated data
+list($result, $totalPages) = getPaginationData($conn, $page, $itemsPerPage);
 ?>
 
 <!DOCTYPE html>
@@ -63,38 +77,21 @@ $totalPages = ceil($totalResults / $itemsPerPage);
     <title>Consumption Tracker</title>
 </head>
 <body class="p-4 bg-gray-200">
-    
     <div id="itemModal" class="hidden">
-        <?php include 'itemModal.php';
-        echo ItemModal() ?>
+        <?php include 'itemModal.php'; echo ItemModal(); ?>
     </div>
 
     <!-- Toolbar -->
-    <?php
-    include 'toolbar.php';
-    echo Toolbar();
-    ?>
+    <?php include 'toolbar.php'; echo Toolbar(); ?>
 
     <!-- Message Display -->
-    <?php
-    if (isset($_SESSION['message'])) {
-        echo "<p class='text-center p-2 " . ($_SESSION['messageType'] == 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white') . "'>" . $_SESSION['message'] . "</p>";
-        unset($_SESSION['message']);
-        unset($_SESSION['messageType']);
-    }
-    ?>
+    <?php showMessage(); ?>
 
     <!-- Table Body -->
-    <?php include 'tableBody.php';
-    $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-    $items_per_page = 10; // Set the number of items per page
-    echo Table($page, $items_per_page);
-    ?>
-
-
+    <div class="flex flex-col justify-center">
+        <?php include 'tableBody.php'; echo Table($result, $page, $totalPages); ?>
+    </div>
 </body>
 </html>
 
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>
