@@ -24,9 +24,15 @@ function Table($result, $currentPage, $totalPages)
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Category"] ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
-                        <td class="space-x-2">
-                          <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"></button>
-                          <button class="fa-solid fa-trash text-red-500 bg-red-100 p-2 rounded-full"></button>
+                        <td class="">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"></button>
+                            <form method="POST" action="delete.php" onsubmit="return confirm('Delete <?=  $row['Name']; ?> ?')">
+                            <input type="hidden" name="id" value="<?= $row['ID'] ?>">
+                            <input type="hidden" name="Name" value="<?= $row['Name'] ?>">
+                            <button class="fa-solid fa-trash text-red-500 bg-red-100 p-2 rounded-full"></button>
+                            </form>
+                        </div>
                         </td>
                         </tr>
                     <?php endwhile; ?>
