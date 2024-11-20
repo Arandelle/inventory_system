@@ -1,5 +1,5 @@
 function AddItem() {
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById("itemModal");
     modal.classList.toggle("hidden");
 }   
 

@@ -2,8 +2,6 @@
 
 include 'database.php';
 
-
-
 function Toolbar()
 {
     ob_start(); 

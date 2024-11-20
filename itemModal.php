@@ -3,7 +3,7 @@
     function ItemModal(){
         ob_start();
         ?>
-        <form method="POST" action=""
+        <form method="POST" action="index.php"
         class="fixed flex items-center justify-center inset-0 z-50">
          <div class="fixed h-full w-full bg-gray-600 bg-opacity-50"
             onclick="AddItem()">
