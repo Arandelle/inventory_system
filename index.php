@@ -32,36 +32,6 @@ function showMessage()
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $itemsPerPage = 10; // Change this value as needed
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize inputs
-    $name = trim($_POST["name"] ?? '');
-    $cost = floatval($_POST["cost"] ?? 0);
-    $category = trim($_POST["category"] ?? '');
-    $date = trim($_POST["date"] ?? '');
-    $quan = intval($_POST["quan"] ?? 0);
-
-    if ($name && $cost > 0 && $category && $date && $quan > 0) {
-        $stmt = $conn->prepare("INSERT INTO daily_consumption (Name, Cost, Category, ConsumptionDate, Quantity) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdssi", $name, $cost, $category, $date, $quan);
-
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "Successfully Added!";
-            $_SESSION['messageType'] = "success";
-        } else {
-            $_SESSION['message'] = "Error: " . $stmt->error;
-            $_SESSION['messageType'] = "error";
-        }
-        $stmt->close();
-    } else {
-        $_SESSION['message'] = "Please fill all fields with valid data!";
-        $_SESSION['messageType'] = "error";
-    }
-
-    // Redirect to maintain current page
-    header("Location: index.php?page=" . $page);
-    exit();
-}
-
 // Fetch paginated data
 list($result, $totalPages) = getPaginationData($conn, $page, $itemsPerPage);
 ?>
@@ -76,21 +46,25 @@ list($result, $totalPages) = getPaginationData($conn, $page, $itemsPerPage);
     <script src="script.js"></script>
     <title>Consumption Tracker</title>
 </head>
-<body class="p-4 bg-gray-200">
-    <div id="itemModal" class="hidden">
-        <?php include 'itemModal.php'; echo ItemModal(); ?>
-    </div>
-
-    <!-- Toolbar -->
-    <?php include 'toolbar.php'; echo Toolbar(); ?>
-
-    <!-- Message Display -->
-    <?php showMessage(); ?>
-
-    <!-- Table Body -->
-    <div class="flex flex-col justify-center">
-        <?php include 'tableBody.php'; echo Table($result, $page, $totalPages); ?>
-    </div>
+<body class="p-4 bg-gray-200 flex flex-col justify-between h-screen">
+ <div>
+        <div id="itemModal" class="hidden">
+            <?php include 'addForm.php'; echo addForm(); ?>
+        </div>
+    
+        <!-- Toolbar -->
+        <?php include 'toolbar.php'; echo Toolbar(); ?>
+    
+        <!-- Message Display -->
+        <?php showMessage(); ?>
+    
+        <!-- Table Body -->
+        <div class="flex flex-col justify-center">
+            <?php include 'tableBody.php'; echo Table($result, $page, $totalPages); ?>
+        </div>
+    
+ </div>
+    <p class="text-gray-500 text-center">@arandellepaguinto</p>
 </body>
 </html>
 

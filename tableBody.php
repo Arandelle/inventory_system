@@ -26,8 +26,12 @@ function Table($result, $currentPage, $totalPages)
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
                         <td class="">
                         <div class="flex flex-row space-x-2 items-center">
-                            <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"></button>
-                            <form method="POST" action="delete.php" onsubmit="return confirm('Delete <?=  $row['Name']; ?> ?')">
+                            
+                        <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"
+                        onclick="AddItem()"></button>
+                        
+                    <!-- Delete button by post method-->
+                            <form method="POST" action="sdelete.php" onsubmit="return confirm('Delete <?=  $row['Name']; ?> ?')">
                             <input type="hidden" name="id" value="<?= $row['ID'] ?>">
                             <input type="hidden" name="Name" value="<?= $row['Name'] ?>">
                             <button class="fa-solid fa-trash text-red-500 bg-red-100 p-2 rounded-full"></button>

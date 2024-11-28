@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start session to store messages
-include 'database.php'; // Include your database connection
+include '../database.php'; // Include your database connection
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'] ?? null;
@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 
     // Redirect back to the table page
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 } else {
     // Invalid access
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
