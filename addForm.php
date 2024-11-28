@@ -5,11 +5,9 @@
         ?>
         <form method="POST" action="./actions/add.php"
         class="fixed flex items-center justify-center inset-0 z-50">
-        
-         <button class="fixed h-full w-full bg-gray-600 bg-opacity-50 cursor-default"
-           popovertarget="addForm" popovertargetaction="hide">
-         </button>
-
+         <div class="fixed h-full w-full bg-gray-600 bg-opacity-50"
+            onclick="ShowModal('add')">
+        </div>
          <div class="relative bg-white p-4 flex flex-col space-y-4 rounded-md shadow-lg">
          <p class="text-blue-500 text-center font-bold">Add your expenses</p>
             <?php 

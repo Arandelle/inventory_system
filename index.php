@@ -29,7 +29,7 @@ function showMessage()
 }
 
 // Default page settings
-$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$page = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
 $itemsPerPage = 10; // Change this value as needed
 
 // Fetch paginated data
@@ -48,19 +48,27 @@ list($result, $totalPages) = getPaginationData($conn, $page, $itemsPerPage);
 </head>
 <body class="p-4 bg-gray-200 flex flex-col justify-between h-screen">
  <div>
-        <div id="itemModal" class="hidden">
-            <?php include 'addForm.php'; echo addForm(); ?>
+        <div id="addModal" class="hidden">
+            <?php include 'addForm.php';
+            echo addForm(); ?>
+        </div>
+
+        <div id="editModal" class="hidden">
+            <?php include 'editForm.php';
+            echo editForm(); ?>
         </div>
     
         <!-- Toolbar -->
-        <?php include 'toolbar.php'; echo Toolbar(); ?>
+        <?php include 'toolbar.php';
+        echo Toolbar(); ?>
     
         <!-- Message Display -->
         <?php showMessage(); ?>
     
         <!-- Table Body -->
         <div class="flex flex-col justify-center">
-            <?php include 'tableBody.php'; echo Table($result, $page, $totalPages); ?>
+            <?php include 'tableBody.php';
+            echo Table($result, $page, $totalPages); ?>
         </div>
     
  </div>

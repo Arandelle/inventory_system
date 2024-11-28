@@ -4,12 +4,12 @@
         ob_start();
         ?>
         <form method="POST" action="./actions/edit.php"
-        class="fixed flex items-center justify-center inset-0 z-50">
-         <button class="fixed h-full w-full bg-gray-600 bg-opacity-50"
-            popovertarget="editForm">
-    </button>
+        class="edit-form fixed flex items-center justify-center inset-0 z-50">
+         <div class="fixed h-full w-full bg-gray-600 bg-opacity-50"
+         onclick="ShowModal('edit', '')" >
+         </div>
          <div class="relative bg-white p-4 flex flex-col space-y-4 rounded-md shadow-lg">
-         <p class="text-blue-500 text-center font-bold">Add your expenses</p>
+         <p class="text-green-500 text-center font-bold">Edit your expenses</p>
 
             <?= InputStyle("Name: ", "text", "fa-list-ul", "consumption", "name"); ?>
             <?= InputStyle("Cost: ", "number", "fa-money-bill-1", "cost", "cost"); ?>
@@ -32,7 +32,7 @@
             <?= InputStyle("Date: ", "date", "fa-calendar", "date", "date"); ?>
             <?= InputStyle("Quantity: ", "number", "fa-list-ol", "quantity", "quan"); ?>
 
-            <button type="submit" class="items-center text-white bg-blue-500 hover:bg-blue-600  rounded-lg text-sm p-2 shadow-lg">
+            <button type="submit" class="items-center text-white bg-green-500 hover:bg-green-600  rounded-lg text-sm p-2 shadow-lg">
                 Confirm
             </button>
          </div>

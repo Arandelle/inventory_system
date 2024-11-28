@@ -10,11 +10,12 @@ function Toolbar()
         <button class="inline-flex space-x-2 justify-center items-center text-nowrap text-gray-500 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
 
         id="addItem"
-        onclick="AddItem()"
+        onclick="ShowModal('add')"
         >
         <i class="fa-solid fa-plus"></i>
         <p> Add new consumption</p>
         </button>
+        
         <p class="text-md lg:text-lg font-bold text-gray-600 dark:text-green-500 text-center w-full sm:w-auto">
             Daily Consumption Tracker
         </p>
