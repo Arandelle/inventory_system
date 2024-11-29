@@ -18,19 +18,19 @@ function Table($result, $currentPage, $totalPages)
                     <?php 
                     while ($row = $result->fetch_assoc()): ?>
                         <tr class="border-b dark:border-gray-700 bg-white hover:bg-gray-100 dark:bg-gray-800 hover:dark:bg-gray-700">
-                        <td name="id" class="px-6 py-4 whitespace-nowrap"><?= $row["ID"] ?></td>
-                        <td name="name" class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Name"]))?></td>
-                        <td name="cost" class="px-6 py-4 whitespace-nowrap"><?=$row["Cost"]?></td>
-                        <td name="category" class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Category"])) ?></td>
-                        <td name="date" class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
-                        <td name="quan" class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= $row["ID"] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Name"]))?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?=$row["Cost"]?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Category"])) ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
                         <td id="" class="">
                         <div class="flex flex-row space-x-2 items-center"> 
                         <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"
                         onclick="ShowModal('edit', <?= htmlspecialchars(json_encode($row)) ?>)"></button>
                         
                     <!-- Delete button by post method-->
-                            <form method="POST" action="sdelete.php" onsubmit="return confirm('Delete <?=  $row['Name']; ?> ?')">
+                            <form method="POST" action="./actions/delete.php" onsubmit="return confirm('Delete <?=  $row['Name']; ?> ?')">
                             <input type="hidden" name="id" value="<?= $row['ID'] ?>">
                             <input type="hidden" name="Name" value="<?= $row['Name'] ?>">
                             <button class="fa-solid fa-trash text-red-500 bg-red-100 p-2 rounded-full"></button>

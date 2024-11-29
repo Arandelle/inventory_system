@@ -7,6 +7,7 @@ function ShowModal(mode, item) {
         const editForm = editModal.querySelector('.edit-form');
         
         // Populate form fields
+        editForm.querySelector('input[name="id"').value = item.ID;
         editForm.querySelector('input[name="name"]').value = item.Name;
         editForm.querySelector('input[name="cost"]').value = item.Cost;
         editForm.querySelector('select[name="category"]').value = item.Category;

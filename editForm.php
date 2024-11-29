@@ -11,6 +11,7 @@
          <div class="relative bg-white p-4 flex flex-col space-y-4 rounded-md shadow-lg">
          <p class="text-green-500 text-center font-bold">Edit your expenses</p>
 
+            <input class="hidden" type="text" name="id">
             <?= InputStyle("Name: ", "text", "fa-list-ul", "consumption", "name"); ?>
             <?= InputStyle("Cost: ", "number", "fa-money-bill-1", "cost", "cost"); ?>
 
@@ -32,7 +33,7 @@
             <?= InputStyle("Date: ", "date", "fa-calendar", "date", "date"); ?>
             <?= InputStyle("Quantity: ", "number", "fa-list-ol", "quantity", "quan"); ?>
 
-            <button type="submit" class="items-center text-white bg-green-500 hover:bg-green-600  rounded-lg text-sm p-2 shadow-lg">
+            <button name="updateData" type="submit" class="items-center text-white bg-green-500 hover:bg-green-600  rounded-lg text-sm p-2 shadow-lg">
                 Confirm
             </button>
          </div>
