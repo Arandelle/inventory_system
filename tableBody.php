@@ -19,9 +19,9 @@ function Table($result, $currentPage, $totalPages)
                     while ($row = $result->fetch_assoc()): ?>
                         <tr class="border-b dark:border-gray-700 bg-white hover:bg-gray-100 dark:bg-gray-800 hover:dark:bg-gray-700">
                         <td name="id" class="px-6 py-4 whitespace-nowrap"><?= $row["ID"] ?></td>
-                        <td name="name" class="px-6 py-4 whitespace-nowrap"><?= $row["Name"] ?></td>
-                        <td name="cost" class="px-6 py-4 whitespace-nowrap"><?= $row["Cost"] ?></td>
-                        <td name="category" class="px-6 py-4 whitespace-nowrap"><?= $row["Category"] ?></td>
+                        <td name="name" class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Name"]))?></td>
+                        <td name="cost" class="px-6 py-4 whitespace-nowrap"><?=$row["Cost"]?></td>
+                        <td name="category" class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Category"])) ?></td>
                         <td name="date" class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
                         <td name="quan" class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
                         <td id="" class="">
