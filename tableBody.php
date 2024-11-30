@@ -1,7 +1,7 @@
 <?php
 function Table($result, $currentPage, $totalPages)
 {
-  $headers = ['ID', "Name", "Cost", "Category", "Consumption_Date", "Quantity", "Action"];
+  $headers = ['ID', "Name", "Cost", "Category", "Consumption_Date", "Quantity","Total", "Action"];
   ob_start();
   ?>
         <div class="flex flex-col justify-center shadow-lg">
@@ -24,6 +24,7 @@ function Table($result, $currentPage, $totalPages)
                         <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["Category"])) ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?=  (new DateTime($row["ConsumptionDate"]))->format("M d, Y") ?></td>
                         <td class="px-6 py-4 whitespace-nowrap"><?= $row["Quantity"] ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><?= $row["total_cost"]?></td>
                         <td id="" class="">
                         <div class="flex flex-row space-x-2 items-center"> 
                         <button class="fa-solid fa-pencil text-green-500 bg-green-100 p-2 rounded-full"

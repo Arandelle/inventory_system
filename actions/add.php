@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include '../database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitize inputs
@@ -7,13 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category = trim($_POST["category"] ?? '');
     $date = trim($_POST["date"] ?? '');
     $quan = intval($_POST["quan"] ?? 0);
+    $totalCost = $cost * $quan;
 
     if ($name && $cost > 0 && $category && $date && $quan > 0) {
-        $stmt = $conn->prepare("INSERT INTO daily_consumption (Name, Cost, Category, ConsumptionDate, Quantity) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdssi", $name, $cost, $category, $date, $quan);
+        $stmt = $conn->prepare("INSERT INTO daily_consumption (Name, Cost, Category, ConsumptionDate, Quantity, total_cost) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdssii", $name, $cost, $category, $date, $quan, $totalCost);
 
         if ($stmt->execute()) {
-            $_SESSION['message'] = "Successfully Added!";
+            $_SESSION['message'] = "$name Successfully Added!";
             $_SESSION['messageType'] = "success";
         } else {
             $_SESSION['message'] = "Error: " . $stmt->error;

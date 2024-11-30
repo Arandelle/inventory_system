@@ -5,6 +5,7 @@ include '../database.php'; // Include your database connection
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'] ?? null;
     $name = $_POST['Name'] ?? "Record";
+    $uppercase = ucwords($name);
 
     if ($id) {
         // Prepare the delete query
@@ -12,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {
-            $_SESSION['message'] = "$name successfully deleted!";
+            $_SESSION['message'] = "$uppercase successfully deleted!";
             $_SESSION['messageType'] = "success";
         } else {
             $_SESSION['message'] = "Error: " . $stmt->error;
