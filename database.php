@@ -2,7 +2,7 @@
     $serverName = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "consumption_tracker";
+    $dbname = "inventory_system";
 
     $conn = new mysqli($serverName, $username, $password,  $dbname);
 

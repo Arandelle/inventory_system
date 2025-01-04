@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($id) {
         // Prepare the delete query
-        $stmt = $conn->prepare("DELETE FROM daily_consumption WHERE ID = ?");
+        $stmt = $conn->prepare("DELETE FROM item_details WHERE ID = ?");
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {

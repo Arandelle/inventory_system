@@ -13,11 +13,11 @@ function Toolbar()
         onclick="ShowModal('add')"
         >
         <i class="fa-solid fa-plus"></i>
-        <p> Add new consumption</p>
+        <p> Add new item</p>
         </button>
         
         <p class="text-md lg:text-lg font-bold text-gray-600 dark:text-green-500 text-center w-full sm:w-auto">
-            Daily Consumption Tracker
+           Inventory System
         </p>
         <div class="relative w-full sm:w-auto">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

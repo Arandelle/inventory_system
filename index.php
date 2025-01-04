@@ -7,13 +7,13 @@ function getPaginationData($conn, $page, $itemsPerPage)
     $offset = ($page - 1) * $itemsPerPage;
 
     // Fetch paginated results
-    $stmt = $conn->prepare("SELECT * FROM daily_consumption ORDER BY ConsumptionDate DESC LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM item_details ORDER BY Quantity DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $itemsPerPage, $offset);
     $stmt->execute();
     $result = $stmt->get_result();
 
     // Fetch total count for pagination
-    $totalResults = $conn->query("SELECT COUNT(*) as total FROM daily_consumption")->fetch_assoc()['total'];
+    $totalResults = $conn->query("SELECT COUNT(*) as total FROM item_details")->fetch_assoc()['total'];
     $totalPages = ceil($totalResults / $itemsPerPage);
 
     return [$result, $totalPages];
@@ -44,7 +44,7 @@ list($result, $totalPages) = getPaginationData($conn, $page, $itemsPerPage);
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="script.js"></script>
-    <title>Consumption Tracker</title>
+    <title>Inventory System</title>
 </head>
 <body class="p-4 bg-gray-200 flex flex-col justify-between h-screen">
  <div>

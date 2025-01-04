@@ -3,19 +3,18 @@ session_start();
 include '../database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitize inputs
-    $name = trim($_POST["name"] ?? '');
-    $cost = floatval($_POST["cost"] ?? 0);
+    $title = trim($_POST["title"] ?? '');
+    $price = floatval($_POST["price"] ?? 0);
     $category = trim($_POST["category"] ?? '');
-    $date = trim($_POST["date"] ?? '');
-    $quan = intval($_POST["quan"] ?? 0);
-    $totalCost = $cost * $quan;
+    $quantity = intval($_POST["quantity"] ?? 0);
 
-    if ($name && $cost > 0 && $category && $date && $quan > 0) {
-        $stmt = $conn->prepare("INSERT INTO daily_consumption (Name, Cost, Category, ConsumptionDate, Quantity, total_cost) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdssii", $name, $cost, $category, $date, $quan, $totalCost);
+
+    if ($title && $price > 0 && $category && $quantity > 0) {
+        $stmt = $conn->prepare("INSERT INTO item_details (Title, Price, Category, Quantity) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sdsi", $title, $price, $category, $quantity);
 
         if ($stmt->execute()) {
-            $_SESSION['message'] = "$name Successfully Added!";
+            $_SESSION['message'] = "$title Successfully Added!";
             $_SESSION['messageType'] = "success";
         } else {
             $_SESSION['message'] = "Error: " . $stmt->error;

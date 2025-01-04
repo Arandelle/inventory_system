@@ -7,12 +7,12 @@ function ShowModal(mode, item) {
     const editForm = editModal.querySelector(".edit-form");
 
     // Populate form fields
-    editForm.querySelector('input[name="id"').value = item.ID;
-    editForm.querySelector('input[name="name"]').value = item.Name;
-    editForm.querySelector('input[name="cost"]').value = item.Cost;
-    editForm.querySelector('select[name="category"]').value = item.Category;
-    editForm.querySelector('input[name="date"]').value = item.ConsumptionDate;
-    editForm.querySelector('input[name="quan"]').value = item.Quantity;
+    editForm.querySelector('input[name="id"]').value = item.id; 
+    editForm.querySelector('input[name="title"]').value = item.title; 
+    editForm.querySelector('input[name="price"]').value = item.price; 
+    editForm.querySelector('select[name="category"]').value = item.category; 
+    editForm.querySelector('input[name="quantity"]').value = item.quantity; 
+    
 
     editModal.classList.toggle("hidden");
   }
