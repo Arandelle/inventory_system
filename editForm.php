@@ -3,7 +3,7 @@
     function editForm(){
         ob_start();
         ?>
-        <form method="POST" action="./actions/edit.php" id="editModal"
+        <form method="POST" action="./actions/edit.php" id="editModal" enctype="multipart/form-data"
         class="edit-form fixed flex items-center justify-center inset-0 z-50">
          <div class="fixed h-full w-full bg-gray-600 bg-opacity-50"
          onclick="ShowModal('edit', '')" >
@@ -30,6 +30,10 @@
                 </div>
           </div>
             <?= InputStyle("Quantity: ", "number", "fa-list-ol", "quantity", "quantity"); ?>
+            <div class="space-y-1">
+                <label for="image" class="text-sm text-gray-500">Upload Image: </label>
+                <input type="file" name="image" id="image" class="block w-full sm:w-80 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:outline-none focus:border-2 focus:border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+            </div>
             <button name="updateData" type="submit" class="items-center text-white bg-green-500 hover:bg-green-600  rounded-lg text-sm p-2 shadow-lg">
                 Confirm
             </button>

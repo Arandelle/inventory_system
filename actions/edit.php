@@ -10,18 +10,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateData'])) {
     $new_category = trim($_POST["category"] ?? '');
     $new_quan = intval($_POST["quantity"] ?? 0);
 
+    // Handle the uploaded image
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+        // Specify allowed image types
+        $allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+        $fileType = $_FILES["image"]["type"];
+        $fileSize = $_FILES["image"]["size"];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!in_array($fileType, $allowedTypes)) {
+            $_SESSION['message'] = "Invalid file type. Only images are allowed.";
+            $_SESSION['messageType'] = "error";
+        } elseif ($fileSize > $maxSize) {
+            $_SESSION['message'] = "File size exceeds the maximum limit of 5MB.";
+            $_SESSION['messageType'] = "error";
+        } else {
+            // Get the binary data of the image
+            $imageData = file_get_contents($_FILES["image"]["tmp_name"]);
+        }
+    } else {
+        $imageData = null; // No image uploaded
+    }
+
     // Validate inputs
     if ($id > 0 && $new_title && $new_price > 0 && $new_category && $new_quan >= 0) {
         try {
             // Prepare the SQL statement
             $stmt = $conn->prepare(
                 "UPDATE item_details
-                 SET Title = ?, Price = ?, Category = ?, Quantity = ?
+                 SET Title = ?, Price = ?, Category = ?, Quantity = ?, Image = ?
                  WHERE ID = ?"
             );
 
             // Bind parameters
-            $stmt->bind_param("sdsii", $new_title, $new_price, $new_category, $new_quan, $id);
+            $stmt->bind_param("sdsisi", $new_title, $new_price, $new_category, $new_quan,$imageData, $id);
 
             // Execute the query
             if ($stmt->execute()) {
