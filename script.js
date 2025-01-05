@@ -14,7 +14,7 @@ function ShowModal(mode, item) {
       }
 
       // Populate form fields with null checks
-      const fields = ['id', 'title', 'price', 'category', 'quantity'];
+      const fields = ['id', 'title', 'price', 'category', 'quantity', 'size', 'color', 'description'];
       fields.forEach(field => {
         const input = editForm.querySelector(`[name="${field}"]`);
         if (input && item[field] !== undefined) {
@@ -31,13 +31,13 @@ function ShowModal(mode, item) {
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
- document.querySelectorAll('input[type="text"]').forEach((input) => {
-    input.addEventListener("blur", function (){
-        this.value = this.value.replace(/\b\w/g, function (char){
-            return char.toUpperCase();
-        })
-    })
- })
+  document.querySelectorAll('input[type="text"]').forEach((input) => {
+    input.addEventListener("blur", function () {
+      this.value = this.value.replace(/\b\w/g, function (char) {
+        return char.toUpperCase();
+      });
+    });
+  });
 });
 
 function reloadTable() {

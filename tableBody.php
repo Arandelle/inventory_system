@@ -1,7 +1,7 @@
 <?php
 function Table($result, $currentPage, $totalPages)
 {
-  $headers = ['ID', "Image", "Name", "Cost", "Category", "Quantity", "Created_At", "Status", "Action"];
+  $headers = ['ID', "Image", "Name","Color","Size", "Cost", "Category", "Quantity","Description", "Created_At", "Status", "Action"];
   ob_start();
 ?>
   <div class="flex flex-col justify-center shadow-lg">
@@ -26,16 +26,19 @@ function Table($result, $currentPage, $totalPages)
               $status = 'Available';
             }
             // Convert image data to base64
-            $imageData = base64_encode($row['image']);
+            $imageData = base64_encode($row['Image']);
             $src = 'data:image/jpeg;base64,' . $imageData;
           ?>
             <tr class="border-b dark:border-gray-700 bg-white hover:bg-gray-100 dark:bg-gray-800 hover:dark:bg-gray-700">
               <td class="px-6 py-4 whitespace-nowrap"><?= $row["id"] ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><img src="<?= $src ?>" alt="Item Image" style="width: 50px; height: auto;"></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["title"])) ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["color"])) ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["size"])) ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= $row["price"] ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["category"])) ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= $row["quantity"] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= ucwords(strtolower($row["description"])) ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= (new DateTime($row["created_at"]))->format("M d, Y") ?></td>
               <td class="px-6 py-4 whitespace-nowrap"><?= $status ?></td>
               <td class="">

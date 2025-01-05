@@ -10,6 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $price = floatval($_POST["price"] ?? 0);
     $category = trim($_POST["category"] ?? '');
     $quantity = intval($_POST["quantity"] ?? 0);
+    $color = trim($_POST["color"] ?? '');
+    $size = trim($_POST["size"] ?? '');
+    $description = trim($_POST["description"] ?? '');
 
     // Handle the uploaded image
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
@@ -33,10 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $imageData = null; // No image uploaded
     }
 
-    if ($title && $price > 0 && $category && $quantity > 0) {
+    if ($title && $price > 0 && $category && $quantity > 0 && $color && $size && $description) {
         // Include the image data when inserting into the database
-        $stmt = $conn->prepare("INSERT INTO item_details (Title, Price, Category, Quantity, Image) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdsis", $title, $price, $category, $quantity, $imageData);
+        $stmt = $conn->prepare("INSERT INTO item_details (Title, Price, Category, Quantity, Image, Color, Size, Description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdsissss", $title, $price, $category, $quantity, $imageData, $color, $size, $description);
 
         if ($stmt->execute()) {
             $_SESSION['message'] = "$title Successfully Added!";
