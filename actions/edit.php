@@ -10,6 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateData'])) {
     $new_category = trim($_POST["category"] ?? '');
     $new_quan = intval($_POST["quantity"] ?? 0);
 
+    $imageData = null; // Default: No image uploaded
+    $updateImage = false; // Flag to check if the image should be updated
+
     // Handle the uploaded image
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
         // Specify allowed image types
@@ -27,23 +30,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateData'])) {
         } else {
             // Get the binary data of the image
             $imageData = file_get_contents($_FILES["image"]["tmp_name"]);
+            $updateImage = true; // Set the flag to update the image
         }
-    } else {
-        $imageData = null; // No image uploaded
     }
 
     // Validate inputs
     if ($id > 0 && $new_title && $new_price > 0 && $new_category && $new_quan >= 0) {
         try {
             // Prepare the SQL statement
-            $stmt = $conn->prepare(
-                "UPDATE item_details
-                 SET Title = ?, Price = ?, Category = ?, Quantity = ?, Image = ?
-                 WHERE ID = ?"
-            );
-
-            // Bind parameters
-            $stmt->bind_param("sdsisi", $new_title, $new_price, $new_category, $new_quan,$imageData, $id);
+            if ($updateImage) {
+                // Update all fields including the image
+                $stmt = $conn->prepare(
+                    "UPDATE item_details
+                     SET Title = ?, Price = ?, Category = ?, Quantity = ?, Image = ?
+                     WHERE ID = ?"
+                );
+                // Bind parameters
+                $stmt->bind_param("sdsisi", $new_title, $new_price, $new_category, $new_quan, $imageData, $id);
+            } else {
+                // Update fields except the image
+                $stmt = $conn->prepare(
+                    "UPDATE item_details
+                     SET Title = ?, Price = ?, Category = ?, Quantity = ?
+                     WHERE ID = ?"
+                );
+                // Bind parameters
+                $stmt->bind_param("sdsii", $new_title, $new_price, $new_category, $new_quan, $id);
+            }
 
             // Execute the query
             if ($stmt->execute()) {
